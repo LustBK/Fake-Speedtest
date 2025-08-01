@@ -1,16 +1,28 @@
 import Speedtest from './Speedtest.js';
+import FastSpeedtest from 'fast-speedtest-api';
 
 const test = new Speedtest({
-    serverId: 33216, // London FibreNest
-    ping: 12,
-    uploadMbps: 2000000,
-    downloadMbps: 2000000,
-    downloadPing: 666,
-    uploadPing: 666,
-    idleLatency: 666
-})
+    serverId: 14757, // Pineville, NC
+    ping: 18,
+    uploadMbps: 78,
+    downloadMbps: 189,
+    downloadPing: 8,
+    uploadPing: 10,
+    idleLatency: 14
+});
 
-const result = await test.fakeResults()
-console.log(result)
+const result = await test.fakeResults();
+console.log(result);
 
-console.log(`https://speedtest.net/result/${result.resultId}.png`)
+const speedTest = new FastSpeedtest({
+    token: 'YOUR_FAST_COM_TOKEN',
+    verbose: false,
+    timeout: 5000,
+    https: true,
+    urlCount: 5,
+    bufferSize: 8,
+    unit: FastSpeedtest.UNITS.Mbps
+});
+
+const realTimeSpeed = await speedTest.getSpeed();
+console.log(`Real-time download speed: ${realTimeSpeed} Mbps`)
